@@ -1,0 +1,44 @@
+<import src="../../templates/copyright.wxml" />
+<import src="../../templates/login-popup.wxml" />
+<!--顶部状态栏 -->
+<view class="bg-img bg-mask padding-tb-xl shadow" style="background-image: url('http://babygarden.oss-cn-beijing.aliyuncs.com/zhuantiheader.jpg');height:450rpx">
+  <view class='padding-xl text-white' style="padding:100rpx 50rpx 50rpx">
+    <view class='padding-xs text-xl' style="letter-spacing:5px">
+      宝宝花园栏目精选
+    </view>
+    <view class='padding-xs' style="letter-spacing:3px">
+      Catalog of BABYGARDEN
+    </view>
+  </view>
+</view>
+
+
+<scroll-view style="height:100%;background-color:#f1f1f1" scroll-y="true" lower-threshold="100rpx">
+  <view class="cu-card case ">
+    <block wx:key="id" wx:for="{{categoriesList}}">
+      <view class="cu-item shadow">
+        <view class="image">
+
+          <image src="{{item.category_thumbnail_image}}" mode="widthFix" data-item="{{item.name}}" data-id="{{item.id}}" bindtap="redictIndex"></image>
+        </view>
+        <view class="cu-list flex padding justify-between" data-item="{{item.name}}" data-id="{{item.id}}" bindtap="redictIndex" style="background-color:#fff;">
+          <view class="text-cyan text-xl">
+            <text>{{item.name}}</text>
+          </view>
+          <view class="topic-img">
+            <image src="../../images/{{item.subimg}}" data-subflag="{{item.subflag}}" data-id="{{item.id}}" catchtap="postsub" class="img-menu"></image>
+          </view>
+        </view>
+        <view class="text-gray text-sm padding" data-item="{{item.name}}" data-id="{{item.id}}">
+          <text>{{item.description}}</text>
+        </view>
+      </view>
+
+    </block>
+  </view>
+</scroll-view>
+<template is="login-popup" data="{{show: isLoginPopup, userInfo: userInfo}}"></template>
+
+<view class="copyright" style="display:{{floatDisplay}}">
+  <template is="tempCopyright" />
+</view>

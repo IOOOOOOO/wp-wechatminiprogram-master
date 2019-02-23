@@ -1,0 +1,81 @@
+<!--
+/*
+ * 
+ * WordPres版微信小程序
+ * author: jianbo
+ * organization: 守望轩  www.watch-life.net
+ * github:    https://github.com/iamxjb/winxin-app-watch-life.net
+ * 技术支持微信号：iamxjb
+ * 开源协议：MIT
+ * Copyright (c) 2017 https://www.watch-life.net All rights reserved.
+ *
+ */-->
+<import src="../../templates/common-list.wxml" />
+<import src="../../templates/copyright.wxml" />
+<import src="../../templates/login-popup.wxml" />
+
+
+
+<view class="bg-img bg-mask shadow-blur" style="background-image: url('http://babygarden.oss-cn-beijing.aliyuncs.com/readloghead.jpg');height:450rpx;overflow:hidden;display:{{isSearchPage}}">
+
+  <view class='text-white text-center'>
+    <view style="height:150rpx"></view>
+    <view class="cu-avatar xl round" style="background-image:url({{userInfo.avatarUrl}});">
+      <view class="cu-tag badge {{userInfo.gender==2?'icon-female':'icon-male'}}" style="background-color:{{userInfo.gender==2?'#dd514c':'#0081ff'}} !important;"></view>
+    </view>
+    <!-- <view class='padding-top-sm' style="letter-spacing:1px"> {{userInfo.nickName}}</view> -->
+    <view class='padding-top'>
+      <text class="'text-cut" style="letter-spacing:1px;">{{userInfo.nickName}}</text>
+    </view>
+  </view>
+</view>
+
+
+<view class="bg-white padding shadow-blur">
+  <!-- <view class="userinfo">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+  </view> -->
+<!--顶部导航栏 -->
+  <!-- <view class="top-bar">
+    <block wx:for="{{topBarItems}}" wx:key="id">
+      <view class="top-bar-item {{item.selected ? 'top-bar-item-Selected': '' }}" catchtap="onTapTag" id="{{item.id}}">{{item.name}}</view>
+    </block>
+  </view> -->
+
+<scroll-view scroll-x class="bg-white nav">
+  <view class='flex text-center'>
+    <view class="cu-item flex-sub {{item.selected?'text-cyan cur':''}}" wx:for="{{topBarItems}}" wx:key="id" bindtap='onTapTag' id="{{item.id}}">
+      <text class="icon-{{item.icons}} padding-right-xs"></text>{{item.name}}
+    </view>
+  </view>
+</scroll-view>
+
+  <view class="container">
+    <view class="showerror" style="display:{{showerror}}">
+      <image src="../../images/cry80.png" style="height:100rpx;width:100rpx"></image>
+      <view class="errortext">
+        暂时无法访问网络
+        <!--
+        <view class="">
+          <button class="more-button" bindtap="reload" size="mini" bindtap="reload">重新加载</button>
+        </view> -->
+      </view>
+    </view>
+    <template is="login-popup" data="{{show: isLoginPopup, userInfo: userInfo}}"></template>
+
+    <view class="log-list">
+      <block wx:key="id" wx:for="{{readLogs}}">
+        <view class="log-items" index="{{index}}" id="{{item[0]}}" data-itemtype="{{item[2]}}" catchtap="redictDetail">
+          <text class="log-text">{{index + 1}}. {{item[1]}}</text>
+        </view>
+      </block>
+      <view class="log-items" style="display:{{shownodata}}">
+        <text class="log-text">没有相关文章</text>
+      </view>
+    </view>
+    <view class="copyright" style="display:{{floatDisplay}}">
+      <template is="tempCopyright" />
+    </view>
+  </view>
+</view>

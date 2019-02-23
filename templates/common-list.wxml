@@ -1,0 +1,26 @@
+<template name="tempCommonList">
+
+  <view class="cu-card article">
+    <view wx:key="id" wx:for="{{postsList}}" class="cu-item shadow">
+      <view index="{{index}}" id="{{item.id}}" bindtap="redictDetail">
+        <view class="text-bold text-lg padding">{{item.title.rendered}}</view>
+        <view class="content">
+          <image src="{{item.post_medium_image}}" mode="aspectFill"></image>
+          <view class="desc">
+            <view class='text-sm'>{{item.excerpt.rendered}}</view>
+            <view class='text-gray text-xs flex justify-between'>
+              <view class=''>
+                <text class="icon-time">{{item.post_date}}</text>
+              </view>
+              <view class=''>
+                <text class="padding-left-sm icon-message">{{item.total_comments}} </text>
+                <text class="padding-left-sm icon-attention">{{item.pageviews}} </text>
+                <text class="padding-left-sm icon-like">{{item.like_count}} </text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

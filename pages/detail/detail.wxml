@@ -1,0 +1,291 @@
+<!--/*
+ * 
+ * WordPres版微信小程序
+ * author: jianbo
+ * organization: 守望轩  www.watch-life.net
+ * github:    https://github.com/iamxjb/winxin-app-watch-life.net
+ * 技术支持微信号：iamxjb
+ * 开源协议：MIT
+ *Copyright (c) 2017 https://www.watch-life.net All rights reserved.
+ * 
+ */-->
+
+<import src="../../wxParse/wxParse.wxml" />
+<import src="../../templates/copyright.wxml" />
+<import src="../../templates/loading.wxml" />
+<import src="../../templates/modal-view/modal-view.wxml" />
+<import src="../../templates/login-popup.wxml" />
+
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+  <view class="cu-bar fixed bg-gradual-blue" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+    <navigator class='action' open-type="navigateBack" delta="1" hover-class="none">
+      <text class='icon-back'></text> 返回
+    </navigator>
+    <navigator class='action' url='../index/index' open-type="switchTab" hover-class="none">
+      <text class='icon-home'></text>
+      <text class="padding-left-xs">首页</text>
+    </navigator>
+  </view>
+</view>
+
+<view>
+  <view>
+
+    <view style="display:{{display}}">
+      <view class="bg-img" style="background-image: url('{{detail.post_full_image}}');height:480rpx;">
+        <view class='bg-shadeBottom padding' style="height:480rpx;">
+          <view class='flex padding-xs text-xl align-end' style='height:360rpx;'>
+            {{detail.title.rendered}}
+          </view>
+          <view class='padding-xs flex justify-between text-xs align-end' style='height:60rpx;'>
+            <view>
+              <text class='icon-time'>{{detailDate}}　</text>
+              <text class='icon-sort'>{{detail.category_name}}</text>
+            </view>
+            <view>
+              <text class='icon-message'>{{total_comments}}　</text>
+              <text class='icon-attention'>{{detail.pageviews}}　</text>
+              <text class='icon-like'>{{likeCount}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="entry-summary padding bg-white" style="letter-spacing: 1px;line-height: 64rpx;">
+        <template is="wxParse" data="{{wxParseData:article.nodes}}" />
+      </view>
+    </view>
+
+
+    <view class="margin-top bg-white padding">
+      <view class="flex align-end solid-bottom margin-bottom">
+        <text class="icon-friendfavor text-xl text-bold text-orange"></text>
+        <view class="padding-left-sm text-black" style="letter-spacing:1px">更多精彩请关注：</view>
+      </view>
+      <official-account></official-account>
+    </view>
+    <!--  上一篇，下一篇  -->
+    <view wx:if="{{display}}" class="bg-white shadow-blur">
+      <view class='flex padding justify-between'>
+        <text class='text-cyan' style="letter-spacing:1px">上一篇</text>
+        <text class='text-blue' style="letter-spacing:1px">下一篇</text>
+      </view>
+      <view wx:if="{{detail.previous_post_id}}" class='text-left padding-sm'>
+        <navigator class="text-cyan" url="../detail/detail?id={{detail.previous_post_id}}" open-type="redirect" hover-class="relatedNavigator">←{{detail.previous_post_title}}</navigator>
+      </view>
+      <view wx:else class="text-cyan padding-left">无</view>
+      <view wx:if="{{detail.next_post_id}}" class='text-right padding-sm'>
+        <navigator class="text-blue" url="../detail/detail?id={{detail.next_post_id}}" open-type="redirect" hover-class="relatedNavigator">{{detail.next_post_title}}→</navigator>
+      </view>
+      <view wx:else class="text-blue text-right padding-right">无</view>
+    </view>
+
+    <!--点赞部分 -->
+    <view class="margin-top bg-white padding" style="display:{{displayLike}}">
+
+      <view class="flex align-end solid-bottom">
+        <text class="icon-like text-xl text-bold text-pink"></text>
+        <view class="padding-left-sm text-black" style="letter-spacing:1px">点 赞</view>
+      </view>
+      <view class="margin-top cu-capsule radius" catchtap="clickLike" id="likebottom">
+        <view class='cu-tag bg-red '>
+          <text class='icon-likefill'></text>
+        </view>
+        <view class="cu-tag line-red">
+          {{likeCount}}
+        </view>
+      </view>
+
+      <view class="margin-top">
+        <view class="cu-avatar-group">
+          <view class="cu-avatar round" wx:for="{{likeList}}" wx:key="id" style="background-image:url({{item}});"></view>
+        </view>
+      </view>
+    </view>
+
+
+
+    <!--猜你喜欢，相同标签的内容 -->
+    <view class="margin-top bg-white padding" style="display:{{display}}">
+      <view class="flex align-end solid-bottom">
+        <text class="icon-attentionfavor text-xl text-bold text-blue"></text>
+        <view class="padding-left-sm text-black" style="letter-spacing:1px">
+          猜你喜欢
+        </view>
+      </view>
+
+      <view class="relatedText margin-top">
+        <block wx:key="id" wx:for="{{postList}}">
+
+          <navigator url="../detail/detail?id={{item.id}}" open-type="redirect" hover-class="relatedNavigator">{{index+1}}.{{item.title.rendered}}</navigator>
+
+        </block>
+      </view>
+    </view>
+
+
+
+    <view class="margin-top bg-white padding" style="display:{{display}}">
+      <view class="flex align-end solid-bottom">
+        <text class="icon-comment text-xl text-bold text-red"></text>
+        <view class="padding-left-sm text-black" id="relatedTitle" style="letter-spacing:1px">
+          参与讨论 {{enableComment?'(点讨论可回复)':''}}
+        </view>
+      </view>
+
+      <view class="padding-top-sm text-black">
+        {{commentCount}}
+      </view>
+      <block wx:key="id" wx:for="{{commentsList}}">
+        <view class="margin-top bg-{{customColor[index%12]}} padding radius light shadow-blur" style="overflow:hidden;">
+
+          <view class="">
+            <view class='flex justify-between'>
+              <view class='flex'>
+                <view class="cu-avatar round" style="background-image:url({{item.author_url}});" bindtap="replay" data-id="{{item.id}}" data-name="{{item.author_name}}" data-userid="{{item.userid}}" data-formId="{{item.formId}}" data-commentdate="{{item.date}}"></view>
+                <view class='flex-sub padding-left-sm'>
+                  <view class='text-black' bindtap="replay" data-id="{{item.id}}" data-name="{{item.author_name}}" data-userid="{{item.userid}}" data-formId="{{item.formId}}" data-commentdate="{{item.date}}">{{item.author_name}}</view>
+                  <view class='text-gray text-sm' bindtap="replay" data-id="{{item.id}}" data-name="{{item.author_name}}" data-userid="{{item.userid}}" data-formId="{{item.formId}}" data-commentdate="{{item.date}}">{{item.date}}</view>
+                </view>
+              </view>
+              <view class='text-black icon-upload text-lg' bindtap='pinglunhaibao' data-index="{{index}}"></view>
+              <!--上一行留给右侧按钮 -->
+          </view>
+        </view>
+
+
+        <!--评论内容 -->
+        <view class="text-black padding-left-xl padding-sm" bindtap="replay" data-id="{{item.id}}" data-name="{{item.author_name}}" data-userid="{{item.userid}}" data-formId="{{item.formId}}" data-commentdate="{{item.date}}"> {{item.content}}</view>
+
+
+        <!-- 一级回复 -->
+        <view wx:for="{{item.child}}" wx:key="itemid1" wx:for-index="idx" wx:for-item="item1">
+          <view class="text-grey padding-left-xl text-sm padding-top-sm" bindtap="replay" data-id="{{item1.id}}" data-name="{{item1.author_name}}" data-userid="{{item1.userid}}" data-formId="{{item1.formId}}" data-commentdate="{{item1.date}}">
+            {{item1.author_name}} 回复{{item.author_name}}:{{item1.content}}
+          </view>
+
+
+          <!-- 二级回复 -->
+          <view wx:for="{{item1.child}}" wx:key="itemid2" wx:for-index="idx" wx:for-item="item2">
+            <view class="text-grey padding-left-xl text-sm padding-top-sm" bindtap="replay" data-id="{{item2.id}}" data-name="{{item2.author_name}}" data-userid="{{item2.userid}}" data-formId="{{item2.formId}}" data-commentdate="{{item2.date}}">
+              {{item2.author_name}} 回复 {{item1.author_name}}:{{item2.content}}
+            </view>
+
+            <!-- 三级回复 -->
+            <view wx:for="{{item2.child}}" wx:key="itemid3" wx:for-index="idx" wx:for-item="item3">
+              <view class="text-grey padding-left-xl text-sm padding-top-sm" bindtap="replay" data-id="{{item3.id}}" data-name="{{item3.author_name}}" data-userid="{{item3.userid}}" data-formId="{{item3.formId}}" data-commentdate="{{item3.date}}">
+                {{item3.author_name}} 回复 {{item2.author_name}}:{{item3.content}}
+              </view>
+
+              <!-- 四级回复 -->
+              <view wx:for="{{item3.child}}" wx:key="itemid4" wx:for-index="idx" wx:for-item="item4">
+                <view class="text-grey padding-left-xl text-sm padding-top-sm">
+                  {{item4.author_name}} 回复 {{item3.author_name}}:{{item4.content}}
+                </view>
+              </view>
+              <!-- 四级回复 -->
+            </view>
+            <!-- 三级回复 -->
+
+          </view>
+          <!-- 二级回复 -->
+
+        </view>
+        <!-- 一级回复-->
+
+
+
+    </view>
+    </block>
+
+    <view style="display:{{display}}">
+
+      <view style='display:{{isLoading?"block":"none"}}'>
+        <template is="tempLoading" />
+      </view>
+      <view style="display:{{isLastPage?'block':'none'}}">
+        <view class="text-cyan text-sm text-center">呜呜，他们说的我都告诉你了……</view>
+      </view>
+    </view>
+    <modal title="{{dialog.title}}" hidden="{{dialog.hidden}}" no-cancel bindconfirm="confirm">{{dialog.content}}</modal>
+  </view>
+  <template is="modalView" data="{{...__modalView__}}" />
+  <view class="canvas-box">
+    <canvas style="width: 600px;height: 970px;" canvas-id="mycanvas" />
+  </view>
+  <view class="ditail-copyright" style="display:{{display}}">
+    <template is="tempCopyright" />
+  </view>
+
+  <template is="login-popup" data="{{show: isLoginPopup, userInfo: userInfo}}"></template>
+
+
+  <view class="cu-bar bg-white text-black tabbar border padding-top" style="position:fixed;bottom:0px;width:100%">
+    <button class="action" catchtap='shareShowHide' style="width:20%">
+      <view class='icon-share text-green'>
+        <!-- <view class='cu-tag badge'></view> -->
+      </view>
+      分享
+    </button>
+    <view class="action" catchtap="clickLike" id="likebottom" style="width:20%">
+      <view class="{{isLiker?'icon-likefill':'icon-like'}} text-pink"></view> 点赞
+    </view>
+    <view class="action" catchtap="praise" style="width:20%">
+      <view class='icon-redpacket text-red'>
+      </view>
+      打赏
+    </view>
+    <view class="bg-{{enableComment?'cyan':'grey'}} submit" bindtap='replyHideShow' style="width:40%">参与讨论</view>
+  </view>
+
+  <!--分享菜单-->
+  <view class="cu-modal bottom-modal {{sharehideshow?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white">
+        <view class='action text-black'>请选择您的分享方式</view>
+        <view class='action icon-close text-red' bindtap='shareShowHide'>取消</view>
+      </view>
+      <view class='padding-sm'>
+        <button class='cu-btn block line-cyan lg' open-type='share' catchtap='shareShowHide'>
+          <text class='icon-share padding-right-sm'></text> 推荐{{websitename}}给朋友</button>
+      </view>
+      <view class='padding-sm'>
+        <button class="cu-btn block line-green lg" catchtap="putongshare">
+          <text class='icon-upload padding-right-sm'></text>生成漂亮的分享海报</button>
+      </view>
+    </view>
+  </view>
+
+
+  <view class="cu-modal bottom-modal {{replyhideshow?'show':''}}" style="width=100%;position:fixed;bottom:100rpx">
+    <view class="cu-dialog">
+      <form catchsubmit="formSubmit" report-submit="true">
+
+        <view class="bg-white">
+          <view class='cu-bar justify-between'>
+            <view>
+              <button class='cu-btn bg-white' bindtap='cancelreply'>
+                <text class='icon-close text-red padding-left'>取消</text>
+              </button>
+            </view>
+            <view>
+              <button class='cu-btn bg-white' formType="submit">
+                <text class="icon-check text-green padding-left">发送</text>
+              </button>
+            </view>
+          </view>
+        </view>
+        <view class='padding-lg bg-white'>
+          <view class="cu-form-group">
+            <input maxlength="200" name="inputPostID" value="{{detail.id}}" style="display:none" />
+
+            <textarea class="cu-form-group padding" fixed="true" placeholder="{{placeholder}}" confirm-type="send" maxlength="200" name="inputComment" placeholder-class='placeholder' value="{{content}}" focus="{{focus}}" bindblur="onReplyBlur" bindfocus="onRepleyFocus"
+              cursor-spacing="20"></textarea>
+
+          </view>
+        </view>
+      </form>
+    </view>
+  </view>
+
+</view>
+</view>

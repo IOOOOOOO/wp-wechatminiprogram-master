@@ -1,0 +1,115 @@
+<!--
+/*
+ * 
+ * WordPres版微信小程序
+ * author: jianbo
+ * organization: 守望轩  www.watch-life.net
+ * github:    https://github.com/iamxjb/winxin-app-watch-life.net
+ * 技术支持微信号：iamxjb
+ * 开源协议：MIT
+ * Copyright (c) 2017 https://www.watch-life.net All rights reserved.
+ *
+ */-->
+<import src="../../templates/common-list.wxml" />
+<import src="../../templates/copyright.wxml" />
+
+<!-- 
+<view class="top-bar">
+    <block wx:for="{{topBarItems}}" wx:key="id">
+        <view class="top-bar-item {{item.selected ? 'top-bar-item-Selected': '' }}" catchtap="onTapTag" id="{{item.id}}">{{item.name}}</view>
+    </block>
+</view> -->
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+  <view class="cu-bar fixed bg-gradual-blue" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+    <navigator class='action' open-type="navigateBack" delta="1" hover-class="none">
+      <text class='icon-back'></text> 返回
+    </navigator>
+    <navigator class='action' url='../index/index' open-type="switchTab" hover-class="none">
+      <text class='icon-home'></text>
+      <text class="padding-left-xs">首页</text>
+    </navigator>
+  </view>
+</view>
+
+
+<!-- <scroll-view scroll-x class="bg-white nav">
+  <view class='flex text-center'>
+    <view class="cu-item flex-sub {{index==TabCur?'text-orange cur':''}}" wx:for="{{topBarItems}}" wx:key="id" bindtap='onTapTag' id="{{item.id}}">
+      {{item.name}}
+    </view>
+  </view>
+</scroll-view> -->
+
+<scroll-view scroll-x class="bg-white nav">
+  <view class='flex text-center'>
+    <view class="cu-item flex-sub {{item.selected?'text-cyan cur':''}}" wx:for="{{topBarItems}}" wx:key="id" bindtap='onTapTag' id="{{item.id}}">
+      <text class="icon-{{item.icons}} padding-right-xs"></text>{{item.name}}
+    </view>
+  </view>
+</scroll-view>
+
+
+
+<view class="padding-top" style="background-color:#f0f0f0">
+  <view class="showerror" style="display:{{showerror}}">
+    <image src="../../images/cry80.png" style="height:100rpx;width:100rpx"></image>
+
+    <view class="errortext">
+      暂时无法访问网络
+      <view class="">
+        <button class="more-button" bindtap="reload" size="mini" bindtap="reload">重新加载</button>
+      </view>
+    </view>
+  </view>
+
+  <view style="display:{{showallDisplay}}">
+    <!-- <view class="common-list">
+            <block wx:key="id" wx:for="{{postsList}}">
+                <view class="list-item has-img" index="{{index}}" id="{{item.post_id}}" bindtap="redictDetail">
+                    <view class="content-title">
+                        <text>{{item.post_title}}</text>
+                    </view>
+                    <view class="content-date">
+                        <image src="../../images/calendar.png"></image>
+                        <text>{{item.post_date}}</text>
+                        <image src="../../images/comments.png"></image>
+                        <text class="">{{item.comment_total}}</text>
+                        <image src="../../images/pageviews.png"></image>
+            <text class="">{{item.pageviews}}</text> 
+            <image src="../../images/home-like.png"></image>
+            <text class="">{{item.like_count}}</text>
+                    </view>
+                    <image src="{{item.post_thumbnail_image}}" class="cover"></image>
+                </view>
+            </block>
+        </view> -->
+    <view class="cu-card article">
+      <view wx:key="id" wx:for="{{postsList}}" class="cu-item shadow">
+        <view index="{{index}}" id="{{item.post_id}}" bindtap="redictDetail" class="padding-top">
+          <!-- <view class="title text-bold">{{item.post_title}}</view> -->
+          <view class="content">
+            <image class="" src="{{item.post_medium_image}}" mode="aspectFill"></image>
+            <view class="desc">
+              <view class='text-black text-lg '>{{item.post_title}}</view>
+              <view class='text-gray text-xs flex justify-between'>
+                <view class=''>
+                  <text class="icon-time">{{item.post_date}}</text>
+                </view>
+                <view class=''>
+                  <text class="padding-left-sm icon-message">{{item.comment_total}} </text>
+                  <text class="padding-left-sm icon-attention">{{item.pageviews}} </text>
+                  <text class="padding-left-sm icon-like">{{item.like_count}} </text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+  <view class="copyright" style="display:{{floatDisplay}}">
+    <template is="tempCopyright" />
+  </view>
+</view>

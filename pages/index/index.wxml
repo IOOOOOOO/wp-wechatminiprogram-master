@@ -1,0 +1,195 @@
+<!--
+/*
+ * 
+ * WordPres版微信小程序
+ * author: jianbo
+ * organization: 守望轩  www.watch-life.net
+ * github:    https://github.com/iamxjb/winxin-app-watch-life.net
+ * 技术支持微信号：iamxjb
+ * 开源协议：MIT
+ * Copyright (c) 2017 https://www.watch-life.net All rights reserved.
+ *
+ */-->
+<import src="../../templates/common-list.wxml" />
+<import src="../../templates/copyright.wxml" />
+
+<!-- <view class="index-header" style="display:{{displaySwiper}}">
+  <swiper class="index-swiper" indicator-dots="true" interval="10000" autoplay="true" indicator-color="rgba(255, 255, 255, .2)" indicator-active-color="rgba(255, 255, 255, .7)">
+    <block wx:key="id" wx:for="{{postsShowSwiperList}}">
+      <swiper-item id="{{item.id}}" index="{{index}}" data-redicttype="{{item.type}}" data-appid="{{item.appid}}" data-url="{{item.url}}" bindtap="redictAppDetail">
+        <image mode="aspectFill" src="{{item.post_medium_image}}" style="width:100%" />
+
+        <view class="swiper-mask"></view>
+        <view class="swiper-desc">
+          <text>{{item.post_title}}</text>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+</view> -->
+
+<!-- <view style="background-color:#fff;width:100%;height:560rpx;">
+<image src="https://www.dadread.com/wp-content/uploads/2019/02/2019020907485999.jpg" style="width:100%;height:560rpx"></image>
+</view> -->
+<view style="width:100%;height:400rpx;">
+  <view class="bg-video bg-mask" style="width:100%;height:400rpx;">
+    <video src='https://oss.dadread.com/dragoncat.mp4' autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover"></video>
+    <view class='text-white' style="padding:200rpx 50rpx 50rpx">
+      <view class='padding-xs text-xl' style="letter-spacing:5px">
+        宝宝花园
+      </view>
+      <view class='padding-xs' style="letter-spacing:3px">
+        一起成为更好的父母
+      </view>
+    </view>
+  </view>
+</view>
+
+
+<view class="showerror" style="display:{{showerror}}">
+  <view>
+    <text class='icon-bad text-cyan text-sm'>诶呀，糟糕，有坏人扯断网线了……</text>
+  </view>
+</view>
+
+<view style="display:{{showallDisplay}}">
+
+  <view style="display:{{floatDisplay}}">
+
+
+    <!-- <view class="search-pancel">
+        <input value="" id="search-input" name="input" confirm-type="search" class="search-input" placeholder="搜索你感兴趣的内容..." bindconfirm="formSubmit"></input>
+        <button class="search-button" form-type="submit" size="mini" plain="true">
+          <icon type="search" color="#959595" size="12" />
+        </button>
+      </view>
+    </form> -->
+
+
+    <!-- 图标导航 -->
+    <!-- <view class="top-Nav">
+      <block wx:for="{{topNav}}" wx:key="id">
+        <view class="top-item" catchtap="onNavRedirect" id="{{item.id}}" data-redicttype="{{item.redirecttype}}" data-url="{{item.url}}" data-appid="{{item.appid}}" data-extraData="{{item.extraData}}">
+          <view>
+            <image src="{{item.image}}"></image>
+          </view>
+          <view>
+            <text>{{item.name}}</text>
+          </view>
+        </view>
+      </block> -->
+
+
+
+    <view class="bg-white">
+      <view class="cu-list grid col-4 no-border">
+        <view class="cu-item" wx:for="{{topNav}}" wx:key wx:if="{{index<6}}">
+          <view catchtap="onNavRedirect" id="{{item.id}}" data-redicttype="{{item.redirecttype}}" data-url="{{item.url}}" data-appid="{{item.appid}}" data-extraData="{{item.extraData}}">
+            <view class='icon-{{item.icon}} text-{{item.color}}'>
+              <view class="cu-tag badge" wx:if="{{item.badge!=0}}">
+                <block wx:if="{{item.badge!=1}}">{{item.badge>99?'99+':item.badge}}</block>
+              </view>
+            </view>
+            <text>{{item.name}}</text>
+          </view>
+        </view>
+      </view>
+
+      <form catchsubmit="formSubmit" catchreset="formReset" id="search-form">
+        <view class="cu-bar search">
+          <view class='search-form radius'>
+            <text class="icon-search" form-type="submit" plain="true"></text>
+            <input type="text" value="" id="search-input" name="input" placeholder="吧啦吧啦小魔仙，搜……" confirm-type="search" bindconfirm="formSubmit"></input>
+          </view>
+          <view class='action'>
+            <text class='icon-close'></text>
+            <text>取消</text>
+          </view>
+        </view>
+      </form>
+    </view>
+    <!-- <view class="top-item" style='width:10%; position: relative; float:left; text-align:center'>
+                    <view>
+                        <image src="../../images/kefu.png"></image>
+                    </view>
+                    <view>
+                        <text>客服</text>
+                    </view>
+                    <button class="share-button" open-type="contact">
+                    </button>
+                </view> -->
+    <!-- </view> -->
+
+    <!-- 图标导航 -->
+    <!-- <view class='top-Nav2'>
+      <navigator url='../hot/hot' hover-class='none'>
+        <view class="top-Nav2-item">
+          <view class="top-Nav2-item-word">
+            <text>排行榜单</text>
+          </view>
+        </view>
+      </navigator>
+
+
+      <navigator url="../../pages/list/list?categoryID=1059" hover-class='none'>
+        <view class="top-Nav2-item2">
+          <view class="top-Nav2-item-word">
+            <text>微信小程序</text>
+          </view>
+        </view>
+      </navigator>
+    </view> -->
+  </view>
+
+  <!--置顶文章（原轮播文章） -->
+  <text class='text-black padding text-xl text-bold'>精 选</text>
+  <view class="cu-card case" style="display:{{displaySwiper}}">
+    <view wx:for="{{postsShowSwiperList}}" wx:key="id" class="cu-item shadow">
+      <view id="{{item.id}}" index="{{index}}" data-redicttype="{{item.type}}" data-appid="{{item.appid}}" data-url="{{item.url}}" bindtap="redictAppDetail">
+        <view class='image'>
+          <image src="{{item.post_full_image}}" mode="widthFix"></image>
+          <view class="cu-tag bg-cyan">置顶</view>
+          <!-- <view class='cu-bar bg-shadeBottom text-lg'>{{item.post_title}}</view> -->
+        </view>
+        <view class="cu-list menu padding-top">
+          <view class="cu-item">
+            <!-- <view class="cu-avatar round lg" style="background-image:url(https://image.weilanwl.com/img/square-4.jpg);"></view> -->
+            <view class='content flex-sub'>
+              <view class='text-black text-lg text-bold'>{{item.post_title}}</view>
+              <view class='text-gray text-sm flex justify-between padding-top'>
+                <view>
+                  <text class="icon-time"></text> {{item.post_date}}
+                </view>
+                <view class="text-gray text-sm">
+                  <text class="icon-attentionfill"></text> {{item.pageviews}}
+                  <text class="icon-messagefill"></text> {{item.comment_total}}
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+
+  <text class='text-black padding text-xl text-bold'>文章列表</text>
+  <view class="">
+    <!-- 加载图文列表 -->
+
+    <template is="tempCommonList" data="{{postsList}}" />
+
+    <view class="loadingmore" style="display:{{floatDisplay}}">
+      <!-- 
+                <view hidden="{{isLastPage}}">
+                    <button class="more-button" formType="submit" size="mini" bindtap="loadMore">加载更多...</button>
+                </view>-->
+      <view class="text-cyan padding text-sm" hidden="{{!isLastPage}}">*^*别这样，宝宝是有底线的！</view>
+    </view>
+    <view class="text-center padding" style="display:{{floatDisplay}}">
+      <template is="tempCopyright" />
+    </view>
+
+  </view>
+</view>

@@ -1,0 +1,50 @@
+<import src="../../templates/common-list.wxml" />
+<import src="../../templates/copyright.wxml" />
+
+<view class="bg-img bg-mask padding-tb-xl shadow" style="background-image: url('https://oss.dadread.com/2019/02/2019021307043821.jpg');height:450rpx">
+  <view class='padding-xl text-white' style="padding:100rpx 50rpx 50rpx">
+    <view class='padding-xs text-xl' style="letter-spacing:5px">
+      花园论坛
+    </view>
+    <view class='padding-xs' style="letter-spacing:3px">
+      TOPIC of BABYGARDEN
+    </view>
+  </view>
+</view>
+  <text class='text-black padding text-xl text-bold'>话 题</text>
+<scroll-view style="height:100%;" scroll-y="true" lower-threshold="100rpx">
+  <view>
+
+    <view class="showerror" style="display:{{showerror}}">
+      <image src="../../images/cry80.png" style="height:100rpx;width:100rpx"></image>
+
+      <view class="errortext">
+        路太长，我们把网络丢了……
+        <view class="">
+          <button class="more-button" bindtap="reload" size="mini" bindtap="reload">再来一遍</button>
+        </view>
+      </view>
+    </view>
+
+    <view style="display:{{showallDisplay}}">
+      <template is="tempCommonList" data="{{postsList}}" />
+
+      <view class="loadingmore" style="display:{{floatDisplay}}">
+        <!-- 
+        
+        <view hidden="{{isLastPage}}">
+          <button class="more-button" formType="submit" size="mini" bindtap="loadMore">加载更多...</button>
+        </view>
+-->
+
+        <view class="text-cyan text-xs" hidden="{{!isLastPage}}">@_@多乎哉，不多矣</view>
+
+      </view>
+
+    </view>
+
+    <view class="copyright" style="display:{{floatDisplay}}">
+      <template is="tempCopyright" />
+    </view>
+  </view>
+</scroll-view>

@@ -1,0 +1,5 @@
+<template name="tempCopyright">
+<view class='text-xs'>
+<text class='text-gray'>  © 宝宝花园 2016-2018    </text>
+</view>
+</template>
